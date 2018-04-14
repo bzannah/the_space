@@ -4,6 +4,8 @@
 /public/bundles/
 /var/
 /vendor/
+.idea/*
+/.idea/*
 ###< symfony/framework-bundle ###
 
 ###> symfony/webpack-encore-pack ###
@@ -22,6 +24,3 @@ yarn-error.log
 /.web-server-pid
 ###< symfony/web-server-bundle ###
 
-.idea/*
-
-/.idea/*
