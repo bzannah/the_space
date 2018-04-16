@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   Read {{ title }}
+{% endblock %}
+
+{% block body %}
+    <h1> {{ title }}</h1>
+
+    <div>
+        <p>
+            Quadras observare in cirpi!Trabem absolute ducunt ad flavum exemplar. Raptus abactuss ducunt ad acipenser.Bubo resisteres, tanquam germanus lura. Amicitia, victrix, et tumultumque.
+            Ubi est albus lura?Nunquam contactus cobaltum. Fluctuis sunt habenas de emeritis solitudo.Est talis calceus, cesaris.
+            Salvus parma etiam visums abnoba est. Aonides, silva, et impositio. Mineralis cresceres, tanquam brevis luba. Eheu, tabes!
+        </p>
+        <p>
+            Equisos assimilant!Cottas mori, tanquam grandis urbs. Clemens historias ducunt ad heuretes.Zeta de fortis zirbus, amor silva!
+        </p>
+        <p>
+            Ubi est domesticus competition? Gemna cresceres, tanquam dexter elogium.Equisos studere in cubiculum!
+        </p>
+    </div>
+
+    <h2> Comments {{ comments|length }}</h2>
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
+

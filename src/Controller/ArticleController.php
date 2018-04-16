@@ -4,10 +4,10 @@ namespace App\Controller;
 
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-class ArticleController extends Controller
+class ArticleController extends AbstractController
 {
     /**
      * @Route("/")
@@ -22,6 +22,15 @@ class ArticleController extends Controller
      */
     public function show($slug)
     {
-        return new Response('Future articles for '. $slug);
+        $comments = [
+            'Cum bubo trabem, omnes calcariaes experientia barbatus, superbus competitiones.Aonidess prarere, tanquam magnum historia.',
+            'Cur hilotae peregrinationes?Ecce.Sunt pulchritudinees convertam raptus, secundus valebates.Nunquam imitari axona.',
+            'Eras velum in magnum aetheres!Sunt advenaes perdere albus, fatalis cottaes.'
+        ];
+        return $this->render('articles/show.html.twig', [
+            'title' => ucwords(str_replace('-', ' ', $slug)),
+            'comments' => $comments,
+            'slug' => $slug,
+        ]);
     }
 }
