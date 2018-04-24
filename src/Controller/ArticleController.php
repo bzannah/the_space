@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Service\MarkdownHelper;
 use Michelf\MarkdownInterface;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -25,7 +26,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/news/{slug}", name="article_show")
      */
-    public function show($slug, MarkdownInterface $markdown, AdapterInterface $cache)
+    public function show($slug, MarkdownHelper $markdownHelper, LoggerInterface $logger)
     {
         $comments = [
             'Cum bubo trabem, omnes calcariaes experientia barbatus, superbus competitiones.Aonidess prarere, tanquam magnum historia.',
@@ -44,13 +45,7 @@ Sausage tenderloin officia jerky nostrud. Laborum elit pastrami non, pig kevin b
 
 Do mollit deserunt **prosciutto laborum. Duis sint** tongue quis nisi. Capicola qui beef ribs dolore pariatur. Minim strip steak fugiat nisi est, meatloaf pig aute. Swine rump turducken nulla sausage. Reprehenderit pork belly tongue alcatra, shoulder excepteur in beef bresaola duis ham bacon eiusmod. Doner drumstick short loin, adipisicing cow cillum tenderloin.
 EOF;
-        $item = $cache->getItem('markdown_'.md5($articleContent));
-
-        if(!$item->isHit()) {
-            $item->set($markdown->transform($articleContent));
-            $cache->save($item);
-        }
-        $articleContent = $item->get();
+        $articleContent = $markdownHelper->parse($articleContent);
 
         return $this->render('articles/show.html.twig', [
             'title' => ucwords(str_replace('-', ' ', $slug)),
