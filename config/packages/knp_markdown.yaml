@@ -1,0 +1,22 @@
+knp_markdown:
+    parser:
+        service:              markdown.parser.light
+    sundown:
+        extensions:
+            fenced_code_blocks:   false
+            no_intra_emphasis:    false
+            tables:               false
+            autolink:             false
+            strikethrough:        true
+            lax_html_blocks:      false
+            space_after_headers:  false
+            superscript:          false
+        render_flags:
+            filter_html:          false
+            no_images:            false
+            no_links:             false
+            no_styles:            false
+            safe_links_only:      false
+            with_toc_data:        false
+            hard_wrap:            false
+            xhtml:                false
