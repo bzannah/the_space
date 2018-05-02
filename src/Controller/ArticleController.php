@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Service\MarkdownHelper;
 use Michelf\MarkdownInterface;
+use Nexy\Slack\Client;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,6 +17,17 @@ use Twig\Environment;
 class ArticleController extends AbstractController
 {
     /**
+     * @var
+     * VIPNOTE: not currently use, seeing autowiring works with construct of controllers
+     */
+    private $isDebug;
+
+    public function __construct(bool $isDebug)
+    {
+        $this->isDebug = $isDebug;
+    }
+
+    /**
      * @Route("/", name="homepage")
      */
     public function homepage()
@@ -26,8 +38,16 @@ class ArticleController extends AbstractController
     /**
      * @Route("/news/{slug}", name="article_show")
      */
-    public function show($slug, MarkdownHelper $markdownHelper, LoggerInterface $logger)
+    public function show($slug, MarkdownHelper $markdownHelper, LoggerInterface $logger, Client $slack)
     {
+        if ($slug == 'slack') {
+            $message = $slack->createMessage()
+                ->from('John Doe')
+                ->withIcon(':ghost:')
+                ->setText('This is an amazing message!');
+
+            $slack->sendMessage($message);
+        }
         $comments = [
             'Cum bubo trabem, omnes calcariaes experientia barbatus, superbus competitiones.Aonidess prarere, tanquam magnum historia.',
             'Cur hilotae peregrinationes?Ecce.Sunt pulchritudinees convertam raptus, secundus valebates.Nunquam imitari axona.',

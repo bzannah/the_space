@@ -23,12 +23,17 @@ class MarkdownHelper
      * @var LoggerInterface
      */
     private $logger;
+    /**
+     * @var bool
+     */
+    private $isDebug;
 
-    public function __construct(AdapterInterface $cache, MarkdownInterface $markdown, LoggerInterface $logger)
+    public function __construct(AdapterInterface $cache, MarkdownInterface $markdown, LoggerInterface $markdownLogger, bool $isDebug = false)
     {
         $this->cache = $cache;
         $this->markdown = $markdown;
-        $this->logger = $logger;
+        $this->logger = $markdownLogger;
+        $this->isDebug = $isDebug;
     }
 
     /**
@@ -40,6 +45,11 @@ class MarkdownHelper
     {
         if(stripos($source, 'bacon') !== false) {
             $this->logger->info('They are taking bacon');
+        }
+
+        if(!$this->isDebug) {
+            // VIPNOTE: $isDebug is found in services bind
+            return $this->markdown->transform($source);
         }
         $item = $this->cache->getItem('markdown_'.md5($source));
 
