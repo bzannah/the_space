@@ -5,7 +5,7 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
-        "dev-server": "encore dev-server",
+        "dev-server": "bin/console server:run localhost:8080",
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production"
