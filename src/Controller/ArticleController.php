@@ -74,10 +74,14 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/news/{slug}/heart", name="article_toggle_heart", methods={"POST"})
+     * VIPNOTE: using the shortcut here since we have the slug which is the same as property in the Article entty
      */
-    public function toggleArticleHeart($slug, LoggerInterface $logger)
+    public function toggleArticleHeart(Article $article, LoggerInterface $logger, EntityManagerInterface $em)
     {
+        $article->incrementHeartCount();
+        $em->flush(); // no need for persist for updates
+
         $logger->info('Article is being hearted');
-        return new JsonResponse(['hearts' => rand(6, 99)]);
+        return new JsonResponse(['hearts' => $article->getHeartCount()]);
     }
 }
