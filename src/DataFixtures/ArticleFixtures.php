@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class ArticleFixtures extends BaseFixture
@@ -30,7 +31,7 @@ class ArticleFixtures extends BaseFixture
      */
     protected function loadData(ObjectManager $manager)
     {
-        $this->createMany(Article::class, 10, function (Article $article, $count) {
+        $this->createMany(Article::class, 10, function (Article $article, $count) use ($manager) {
             $article->setTitle($this->faker->randomElement(self::$articleTitles))
                 ->setContent('One morning, when **Gregor Samsa woke from troubled dreams**, he found himself transformed in his bed into a horrible vermin. *He lay on his armour-like back, and if he lifted his head a little* 
 
@@ -51,6 +52,18 @@ class ArticleFixtures extends BaseFixture
             $article->setAuthor($this->faker->randomElement(self::$articleAuthors))
                 ->setHeartCount($this->faker->numberBetween(6, 89))
                 ->setImageFileName($this->faker->randomElement(self::$articleImages));
+
+            $comment1 = new Comment();
+            $comment1->setAuthorName('Mike Furangandi')
+                ->setContent('How about if I sleep a little bit longer and forget all this nonsense');
+            $comment1->setArticle($article);
+            $manager->persist($comment1);
+
+            $comment2 = new Comment();
+            $comment2->setAuthorName('Dan McHughes')
+                ->setContent('The bedding was hardly able to cover it and seemed ready to slide off any moment');
+            $comment2->setArticle($article);
+            $manager->persist($comment2);
 
             // publish most articles
             if ($this->faker->boolean(70)) {
