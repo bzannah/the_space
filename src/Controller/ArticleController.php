@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\Article;
+use App\Repository\CommentRepository;
 use App\Service\MarkdownHelper;
 use App\Service\SlackClient;
 use Doctrine\ORM\EntityManagerInterface;
@@ -44,37 +45,23 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/news/{slug}", name="article_show")
+     * VIPNOTE: using the shortcut here since we have the slug which is the same as property in the Article entity
+     * VIPNOTE: lazy loading: related data is not queried for until, and unless, we use it.
      */
-    public function show(Article $article, MarkdownHelper $markdownHelper, LoggerInterface $logger, SlackClient $slack, EntityManagerInterface $em)
+    public function show(Article $article, SlackClient $slack)
     {
         if ($article->getSlug() == 'slack') {
             $slack->sendMessage('John Doe', 'A message from SLACK');
         }
-        $comments = [
-            'Cum bubo trabem, omnes calcariaes experientia barbatus, superbus competitiones.Aonidess prarere, tanquam magnum historia.',
-            'Cur hilotae peregrinationes?Ecce.Sunt pulchritudinees convertam raptus, secundus valebates.Nunquam imitari axona.',
-            'Eras velum in magnum aetheres!Sunt advenaes perdere albus, fatalis cottaes.'
-        ];
-
-//        $repository= $em->getRepository(Article::class);
-//
-//        /** @var Article $article */
-//        $article = $repository->findOneBy(['slug' => $slug]);
-//
-//        if(!$article) {
-//            throw $this->createNotFoundException(sprintf('No article for slug: "%s"', $slug));
-//        }
-
 
         return $this->render('articles/show.html.twig', [
-            'article' => $article,
-            'comments' => $comments,
+            'article' => $article
         ]);
     }
 
     /**
      * @Route("/news/{slug}/heart", name="article_toggle_heart", methods={"POST"})
-     * VIPNOTE: using the shortcut here since we have the slug which is the same as property in the Article entty
+     * VIPNOTE: using the shortcut here since we have the slug which is the same as property in the Article entity
      */
     public function toggleArticleHeart(Article $article, LoggerInterface $logger, EntityManagerInterface $em)
     {

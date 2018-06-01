@@ -20,6 +20,11 @@ class SlackClient
         $this->slack = $slack;
     }
 
+    /**
+     * @param string $from
+     * @param string $message
+     * @throws \Http\Client\Exception
+     */
     public function sendMessage(string $from, string $message)
     {
         $this->logInfo('this is a message sent from slack' , [
