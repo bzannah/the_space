@@ -47,6 +47,7 @@ class ArticleController extends AbstractController
      * @Route("/news/{slug}", name="article_show")
      * VIPNOTE: using the shortcut here since we have the slug which is the same as property in the Article entity
      * VIPNOTE: lazy loading: related data is not queried for until, and unless, we use it.
+     * @throws \Http\Client\Exception
      */
     public function show(Article $article, SlackClient $slack)
     {

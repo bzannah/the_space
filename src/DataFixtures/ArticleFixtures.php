@@ -56,14 +56,17 @@ class ArticleFixtures extends BaseFixture
             $comment1 = new Comment();
             $comment1->setAuthorName('Mike Furangandi')
                 ->setContent('How about if I sleep a little bit longer and forget all this nonsense');
-            $comment1->setArticle($article);
+            //$comment1->setArticle($article);
             $manager->persist($comment1);
 
             $comment2 = new Comment();
             $comment2->setAuthorName('Dan McHughes')
                 ->setContent('The bedding was hardly able to cover it and seemed ready to slide off any moment');
-            $comment2->setArticle($article);
+            //$comment2->setArticle($article);
             $manager->persist($comment2);
+
+            $article->addComment($comment1);
+            $article->addComment($comment2);
 
             // publish most articles
             if ($this->faker->boolean(70)) {
