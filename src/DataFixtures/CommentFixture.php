@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class CommentFixture extends BaseFixture
+class CommentFixture extends BaseFixture implements DependentFixtureInterface
 {
     /**
      * @param ObjectManager $manager
@@ -24,5 +25,18 @@ class CommentFixture extends BaseFixture
             $comment->setArticle($this->getRandomReference(Article::class));
         });
         $manager->flush();
+    }
+
+    /**
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on
+     *
+     * @return array
+     */
+    public function getDependencies()
+    {
+        return [
+            ArticleFixtures::class
+        ];
     }
 }
