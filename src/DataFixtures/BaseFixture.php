@@ -11,7 +11,7 @@ use Faker\Generator;
 
 abstract class BaseFixture extends Fixture
 {
-    /** @var ObjectManager $manager*/
+    /** @var ObjectManager $manager */
     private $manager;
 
     /** @var Generator $faker */
@@ -55,11 +55,12 @@ abstract class BaseFixture extends Fixture
         }
     }
 
-    protected function getRandomReference(string $className) {
+    protected function getRandomReference(string $className)
+    {
         if (!isset($this->referencesIndex[$className])) {
             $this->referencesIndex[$className] = [];
             foreach ($this->referenceRepository->getReferences() as $key => $ref) {
-                if (strpos($key, $className.'_') === 0) {
+                if (strpos($key, $className . '_') === 0) {
                     $this->referencesIndex[$className][] = $key;
                 }
             }
@@ -71,3 +72,4 @@ abstract class BaseFixture extends Fixture
         return $this->getReference($randomReferenceKey);
 
     }
+}
