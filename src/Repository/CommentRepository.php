@@ -47,4 +47,23 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param null|string $term
+     * @return mixed
+     */
+    public function findAllWithSearch(?string $term) // ? means if null return all
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->innerJoin('c.article', 'a')
+            ->addSelect('a');
+
+        $value = '%'.$term.'%';
+        if($term) {
+            $qb->andWhere('c.content LIKE :term OR c.authorName LIKE :term OR a.title LIKE :term')
+                ->setParameter('term', $value);
+        }
+        return $qb->orderBy('c.createdAt', 'DESC')
+            ->getQuery()->getResult();
+    }
 }

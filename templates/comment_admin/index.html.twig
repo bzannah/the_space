@@ -1,0 +1,64 @@
+{% extends 'content_base.html.twig' %}
+
+{% block title %}Manage Comments{% endblock %}
+
+{% block content_class %}{{ parent() }} show-article-container-border-green{% endblock %}
+
+{% block content_body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Manage Comments</h1>
+            <form>
+                <div class="input-group mb-3">
+                    <input type="text"
+                           name="q"
+                           class="form-control"
+                           placeholder="Search..."
+                           value="{{ app.request.query.get('q') }}"
+                    >
+                    <div class="input-group-append">
+                        <button type="submit"
+                                class="btn btn-outline-secondary">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Article</th>
+                    <th>Author</th>
+                    <th>Comment</th>
+                    <th>Created</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for comment in comments %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('article_show', {slug: comment.article.slug}) }}">
+                                    {{ comment.article.title }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ comment.authorName }}
+                            </td>
+                            <td style="width: 20%">
+                                {{ comment.content|truncate }}
+                            </td>
+                            <td>
+                                {{ comment.createdAt|ago }}
+                            </td>
+                        </tr>
+
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">No comments found</td>
+                        </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
