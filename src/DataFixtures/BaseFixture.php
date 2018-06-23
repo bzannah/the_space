@@ -72,4 +72,19 @@ abstract class BaseFixture extends Fixture
         return $this->getReference($randomReferenceKey);
 
     }
+
+    /**
+     * @param string $className
+     * @param int $count
+     * @return array
+     * @throws \Exception
+     */
+    protected function getRandomReferences(string $className, int $count)
+    {
+        $references = [];
+        while (count($references) < $count) {
+            $references[] = $this->getRandomReference($className);
+        }
+        return $references;
+    }
 }

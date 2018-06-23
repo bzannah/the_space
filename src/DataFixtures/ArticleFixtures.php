@@ -4,9 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\Tag;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class ArticleFixtures extends BaseFixture
+class ArticleFixtures extends BaseFixture implements DependentFixtureInterface
 {
     private static $articleTitles = [
         'Why Selfish People Are Selfish',
@@ -57,7 +59,27 @@ class ArticleFixtures extends BaseFixture
             if ($this->faker->boolean(70)) {
                 $article->setPublishedAt($this->faker->dateTimeBetween('-50 days', '-1 days'));
             }
+
+            /** @var Tag[] $tags */
+            $tags = $this->getRandomReferences(Tag::class, $this->faker->numberBetween(0, 5));
+
+            foreach ($tags as $tag) {
+                $article->addTag($tag);
+            }
         });
         $manager->flush();
+    }
+
+    /**
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on
+     *
+     * @return array
+     */
+    public function getDependencies()
+    {
+        return [
+            TagFixture::class,
+        ];
     }
 }
