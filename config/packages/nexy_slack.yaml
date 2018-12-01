@@ -1,0 +1,16 @@
+nexy_slack:
+
+    # If you want to use an another httplug client service.
+    http:
+        client: httplug.client
+
+    # The Slack API Incoming WebHooks URL.
+    endpoint:             '%env(SLACK_WEBHOOK_ENDPOINT)%'
+    channel:              null
+    username:             null
+    icon:                 null
+    link_names:           false
+    unfurl_links:         false
+    unfurl_media:         true
+    allow_markdown:       true
+    markdown_in_attachments: []
