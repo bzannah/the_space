@@ -5,8 +5,6 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\CommentRepository;
-use App\Service\MarkdownHelper;
-use App\Service\SlackClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -49,12 +47,8 @@ class ArticleController extends AbstractController
      * VIPNOTE: lazy loading: related data is not queried for until, and unless, we use it.
      * @throws \Http\Client\Exception
      */
-    public function show(Article $article, SlackClient $slack)
+    public function show(Article $article)
     {
-        if ($article->getSlug() == 'slack') {
-            $slack->sendMessage('John Doe', 'A message from SLACK');
-        }
-
         return $this->render('articles/show.html.twig', [
             'article' => $article
         ]);
